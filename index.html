@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Direct Messages - Admin V2 Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=optional" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&icon_names=arrow_back,attach_file,check,close,dashboard,emoji_emotions,event,expand_less,expand_more,forum,group,help,inbox,keyboard_arrow_down,keyboard_arrow_up,language,mail,more_horiz,person,person_add,priority_high,push_pin,refresh,schedule,search,send,settings,sort,sync_problem,tune&display=block" rel="stylesheet" />
+  <script>
+    window.__dmDemoStart = performance.now();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-7: 28px;
+      --space-8: 32px;
+
+      --md-sys-color-primary: #3269e9;
+      --md-sys-color-on-primary: #ffffff;
+      --md-sys-color-primary-container: #d3e3ff;
+      --md-sys-color-on-primary-container: #001a41;
+      --md-sys-color-secondary: #15bdeb;
+      --md-sys-color-secondary-container: #d0f2fb;
+      --md-sys-color-on-secondary-container: #001f29;
+      --md-sys-color-surface: #f7f7f7;
+      --md-sys-color-surface-container-lowest: #ffffff;
+      --md-sys-color-surface-container-low: #f5f5f5;
+      --md-sys-color-surface-container: #ebebeb;
+      --md-sys-color-surface-container-high: #e0e0e0;
+      --md-sys-color-surface-container-highest: #d6d6d6;
+      --md-sys-color-on-surface: #131313;
+      --md-sys-color-on-surface-variant: #4a4a4a;
+      --md-sys-color-on-surface-muted: #6b6b6b;
+      --md-sys-color-outline: #79747e;
+      --md-sys-color-outline-variant: #d6d6d6;
+      --md-sys-color-error: #ba1a1a;
+      --md-sys-color-on-error: #ffffff;
+      --md-sys-color-error-container: #ffdad6;
+      --md-sys-color-on-error-container: #410002;
+      --md-sys-color-success-container: #d8f6dd;
+      --md-sys-color-on-success-container: #0d3b18;
+      --md-sys-color-link: #3269e9;
+      --md-sys-color-warn-dot: #e53935;
+
+      --md-sys-shape-corner-small: 8px;
+      --md-sys-shape-corner-medium: 12px;
+      --md-sys-shape-corner-large: 16px;
+      --md-sys-shape-corner-extra-large: 28px;
+      --md-sys-shape-corner-full: 999px;
+
+      --md-sys-typescale-title-large-size: 22px;
+      --md-sys-typescale-title-large-line: 28px;
+      --md-sys-typescale-title-large-weight: 400;
+      --md-sys-typescale-title-large-tracking: 0;
+      --md-sys-typescale-title-medium-size: 16px;
+      --md-sys-typescale-title-medium-line: 24px;
+      --md-sys-typescale-title-medium-weight: 500;
+      --md-sys-typescale-title-medium-tracking: 0.15px;
+      --md-sys-typescale-title-small-size: 14px;
+      --md-sys-typescale-title-small-line: 20px;
+      --md-sys-typescale-title-small-weight: 500;
+      --md-sys-typescale-title-small-tracking: 0.1px;
+      --md-sys-typescale-body-large-size: 16px;
+      --md-sys-typescale-body-large-line: 24px;
+      --md-sys-typescale-body-large-weight: 400;
+      --md-sys-typescale-body-large-tracking: 0.5px;
+      --md-sys-typescale-body-medium-size: 14px;
+      --md-sys-typescale-body-medium-line: 20px;
+      --md-sys-typescale-body-medium-weight: 400;
+      --md-sys-typescale-body-medium-tracking: 0.25px;
+      --md-sys-typescale-body-small-size: 12px;
+      --md-sys-typescale-body-small-line: 16px;
+      --md-sys-typescale-body-small-weight: 400;
+      --md-sys-typescale-body-small-tracking: 0.4px;
+      --md-sys-typescale-label-large-size: 14px;
+      --md-sys-typescale-label-large-line: 20px;
+      --md-sys-typescale-label-large-weight: 500;
+      --md-sys-typescale-label-large-tracking: 0.1px;
+      --md-sys-typescale-label-medium-size: 12px;
+      --md-sys-typescale-label-medium-line: 16px;
+      --md-sys-typescale-label-medium-weight: 500;
+      --md-sys-typescale-label-medium-tracking: 0.5px;
+      --md-sys-typescale-label-small-size: 11px;
+      --md-sys-typescale-label-small-line: 16px;
+      --md-sys-typescale-label-small-weight: 500;
+      --md-sys-typescale-label-small-tracking: 0.5px;
+
+      --nav-rail-width: 80px;
+      --thread-list-width: 411px;
+      --panel-width: 360px;
+      --panel-body-height: 460px;
+      --chip-height: 32px;
+
+      --font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    html, body { margin: 0; padding: 0; min-height: 100vh; }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--md-sys-color-on-surface);
+      background: var(--md-sys-color-surface);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    button, input, textarea, select { font: inherit; color: inherit; }
+
+    .typescale-title-large {
+      font-size: var(--md-sys-typescale-title-large-size);
+      line-height: var(--md-sys-typescale-title-large-line);
+      font-weight: var(--md-sys-typescale-title-large-weight);
+      letter-spacing: var(--md-sys-typescale-title-large-tracking);
+    }
+    .typescale-title-medium {
+      font-size: var(--md-sys-typescale-title-medium-size);
+      line-height: var(--md-sys-typescale-title-medium-line);
+      font-weight: var(--md-sys-typescale-title-medium-weight);
+      letter-spacing: var(--md-sys-typescale-title-medium-tracking);
+    }
+    .typescale-title-small {
+      font-size: var(--md-sys-typescale-title-small-size);
+      line-height: var(--md-sys-typescale-title-small-line);
+      font-weight: var(--md-sys-typescale-title-small-weight);
+      letter-spacing: var(--md-sys-typescale-title-small-tracking);
+    }
+    .typescale-body-large {
+      font-size: var(--md-sys-typescale-body-large-size);
+      line-height: var(--md-sys-typescale-body-large-line);
+      font-weight: var(--md-sys-typescale-body-large-weight);
+      letter-spacing: var(--md-sys-typescale-body-large-tracking);
+    }
+    .typescale-body-medium {
+      font-size: var(--md-sys-typescale-body-medium-size);
+      line-height: var(--md-sys-typescale-body-medium-line);
+      font-weight: var(--md-sys-typescale-body-medium-weight);
+      letter-spacing: var(--md-sys-typescale-body-medium-tracking);
+    }
+    .typescale-body-small {
+      font-size: var(--md-sys-typescale-body-small-size);
+      line-height: var(--md-sys-typescale-body-small-line);
+      font-weight: var(--md-sys-typescale-body-small-weight);
+      letter-spacing: var(--md-sys-typescale-body-small-tracking);
+    }
+    .typescale-label-large {
+      font-size: var(--md-sys-typescale-label-large-size);
+      line-height: var(--md-sys-typescale-label-large-line);
+      font-weight: var(--md-sys-typescale-label-large-weight);
+      letter-spacing: var(--md-sys-typescale-label-large-tracking);
+    }
+    .typescale-label-small {
+      font-size: var(--md-sys-typescale-label-small-size);
+      line-height: var(--md-sys-typescale-label-small-line);
+      font-weight: var(--md-sys-typescale-label-small-weight);
+      letter-spacing: var(--md-sys-typescale-label-small-tracking);
+    }
+
+    .material-symbols-outlined {
+      font-family: "Material Symbols Outlined";
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-flex;
+      white-space: nowrap;
+      direction: ltr;
+      font-feature-settings: "liga";
+      -webkit-font-feature-settings: "liga";
+      -webkit-font-smoothing: antialiased;
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 20;
+      vertical-align: middle;
+    }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--nav-rail-width) minmax(0, 1fr);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .nav-rail {
+      width: var(--nav-rail-width);
+      height: 100vh;
+      padding: var(--space-3) var(--space-2);
+      background: var(--md-sys-color-surface-container);
+      border-right: 1px solid var(--md-sys-color-outline-variant);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--md-sys-shape-corner-extra-large);
+      display: grid;
+      place-items: center;
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      margin-bottom: var(--space-1);
+    }
+
+    .nav-item {
+      width: 64px;
+      min-height: 56px;
+      border: 0;
+      border-radius: var(--md-sys-shape-corner-large);
+      background: transparent;
+      color: var(--md-sys-color-on-surface-variant);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: var(--md-sys-typescale-label-small-size);
+      font-weight: 600;
+      cursor: default;
+    }
+
+    .nav-item.active {
+      color: var(--md-sys-color-on-primary-container);
+      background: var(--md-sys-color-primary-container);
+      font-weight: 700;
+    }
+
+    .nav-spacer { flex: 1; }
+
+    .admin-main {
+      min-width: 0;
+      height: 100vh;
+      padding: var(--space-6);
+      overflow: hidden;
+    }
+
+    .dm-surface {
+      height: 100%;
+      display: flex;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .thread-sidebar {
+      width: var(--thread-list-width);
+      flex: 0 0 var(--thread-list-width);
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      padding-right: var(--space-6);
+      overflow: hidden;
+      gap: var(--space-3);
+    }
+
+    .pane-divider {
+      width: 1px;
+      flex: 0 0 1px;
+      background: var(--md-sys-color-outline-variant);
+    }
+
+    .conversation-pane {
+      flex: 1;
+      min-width: 0;
+      padding-left: var(--space-3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: var(--md-sys-color-surface-container-lowest);
+      border-radius: var(--md-sys-shape-corner-large);
+    }
+
+    .breadcrumb {
+      color: var(--md-sys-color-on-surface-muted);
+      font-size: var(--md-sys-typescale-label-small-size);
+      letter-spacing: 0.02em;
+      display: flex;
+      gap: var(--space-2);
+      align-items: center;
+    }
+
+    .screen-title { margin: 0; color: var(--md-sys-color-on-surface); }
+
+    .search-field { position: relative; }
+
+    .search-field .material-symbols-outlined {
+      position: absolute;
+      left: var(--space-4);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: 19px;
+    }
+
+    .search-field input {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: var(--md-sys-shape-corner-extra-large);
+      background: var(--md-sys-color-surface-container-lowest);
+      color: var(--md-sys-color-on-surface);
+      outline: none;
+      padding: 0 var(--space-4) 0 44px;
+      font-size: var(--md-sys-typescale-body-large-size);
+      line-height: var(--md-sys-typescale-body-large-line);
+      letter-spacing: var(--md-sys-typescale-body-large-tracking);
+    }
+
+    .search-field input:focus { border-color: var(--md-sys-color-primary); }
+
+    .list-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      min-height: 28px;
+    }
+
+    .section-label {
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: var(--md-sys-typescale-label-small-size);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .sort-toggle {
+      display: inline-flex;
+      gap: 4px;
+      padding: 3px;
+      background: var(--md-sys-color-surface-container);
+      border-radius: var(--md-sys-shape-corner-full);
+    }
+
+    .sort-button {
+      border: 0;
+      background: transparent;
+      border-radius: var(--md-sys-shape-corner-full);
+      padding: 4px 10px;
+      font-size: var(--md-sys-typescale-label-medium-size);
+      font-weight: 600;
+      color: var(--md-sys-color-on-surface-variant);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .sort-button .material-symbols-outlined { font-size: 16px; }
+
+    .sort-button.active {
+      background: var(--md-sys-color-surface-container-lowest);
+      color: var(--md-sys-color-on-surface);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .thread-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+      min-height: 0;
+      flex: 1;
+      display: grid;
+      align-content: start;
+      gap: 2px;
+    }
+
+    .thread-item {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      border-radius: var(--md-sys-shape-corner-medium);
+      background: transparent;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) var(--space-3);
+      cursor: pointer;
+    }
+
+    .thread-item:hover { background: var(--md-sys-color-surface-container-low); }
+
+    .thread-item.selected { background: var(--md-sys-color-secondary-container); }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--md-sys-shape-corner-full);
+      flex: 0 0 40px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      position: relative;
+      background: var(--md-sys-color-secondary-container);
+      color: var(--md-sys-color-on-secondary-container);
+      font-size: var(--md-sys-typescale-label-medium-size);
+      font-weight: 700;
+    }
+
+    .avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+
+    .avatar-fallback { position: relative; z-index: 0; }
+
+    .avatar.compact {
+      width: 28px;
+      height: 28px;
+      flex: 0 0 28px;
+      font-size: 10px;
+    }
+
+    .thread-content {
+      min-width: 0;
+      flex: 1;
+      display: grid;
+      gap: 2px;
+    }
+
+    .thread-name {
+      color: var(--md-sys-color-on-surface);
+      font-size: var(--md-sys-typescale-title-medium-size);
+      line-height: var(--md-sys-typescale-title-medium-line);
+      font-weight: var(--md-sys-typescale-title-medium-weight);
+      letter-spacing: var(--md-sys-typescale-title-medium-tracking);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .thread-preview {
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: var(--md-sys-typescale-title-small-size);
+      line-height: var(--md-sys-typescale-title-small-line);
+      font-weight: var(--md-sys-typescale-title-small-weight);
+      letter-spacing: var(--md-sys-typescale-title-small-tracking);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .thread-preview .material-symbols-outlined { font-size: 16px; opacity: 0.8; }
+
+    .thread-side {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex: 0 0 auto;
+      min-width: 56px;
+    }
+
+    .timestamp {
+      color: var(--md-sys-color-on-surface-muted);
+      font-size: var(--md-sys-typescale-label-small-size);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .needs-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--md-sys-color-warn-dot);
+      box-shadow: 0 0 0 2px var(--md-sys-color-surface-container-lowest);
+    }
+
+    .empty-list {
+      border: 1px dashed var(--md-sys-color-outline-variant);
+      border-radius: var(--md-sys-shape-corner-large);
+      padding: var(--space-8) var(--space-4);
+      margin-top: var(--space-2);
+      text-align: center;
+      color: var(--md-sys-color-on-surface-variant);
+      background: var(--md-sys-color-surface-container-lowest);
+      display: grid;
+      gap: var(--space-1);
+      justify-items: center;
+    }
+
+    .empty-list .material-symbols-outlined { font-size: 36px; margin-bottom: var(--space-1); }
+
+    .conversation-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
+      min-width: 0;
+    }
+
+    .conversation-back {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      border-radius: var(--md-sys-shape-corner-full);
+      color: var(--md-sys-color-on-surface-variant);
+      flex-shrink: 0;
+    }
+
+    .conversation-back:hover { background: var(--md-sys-color-surface-container); }
+
+    .conversation-back .material-symbols-outlined { font-size: 22px; }
+
+    .conversation-title-group {
+      flex: 1;
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+    }
+
+    .conversation-info-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .conversation-title {
+      margin: 0;
+      font-size: var(--md-sys-typescale-title-large-size);
+      line-height: var(--md-sys-typescale-title-large-line);
+      font-weight: var(--md-sys-typescale-title-large-weight);
+      letter-spacing: var(--md-sys-typescale-title-large-tracking);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conversation-meta {
+      color: var(--md-sys-color-on-surface-muted);
+      font-size: var(--md-sys-typescale-body-medium-size);
+      line-height: var(--md-sys-typescale-body-medium-line);
+      letter-spacing: var(--md-sys-typescale-body-medium-tracking);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conversation-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-shrink: 0;
+      justify-content: flex-end;
+    }
+
+    .chip {
+      min-height: var(--chip-height);
+      height: var(--chip-height);
+      border-radius: var(--md-sys-shape-corner-full);
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--md-sys-typescale-label-large-size);
+      font-weight: 600;
+      white-space: nowrap;
+      border: 0;
+      cursor: default;
+    }
+
+    .chip .material-symbols-outlined { font-size: 18px; }
+
+    .chip-button {
+      cursor: pointer;
+      transition: opacity 160ms ease, background 160ms ease;
+    }
+
+    .chip-button:hover { opacity: 0.88; }
+
+    .chip-tonal {
+      background: var(--md-sys-color-secondary-container);
+      color: var(--md-sys-color-on-secondary-container);
+    }
+
+    .info-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: var(--md-sys-shape-corner-full);
+      font-size: var(--md-sys-typescale-label-small-size);
+      line-height: var(--md-sys-typescale-label-small-line);
+      font-weight: var(--md-sys-typescale-label-small-weight);
+      letter-spacing: var(--md-sys-typescale-label-small-tracking);
+      white-space: nowrap;
+      cursor: default;
+      user-select: none;
+    }
+
+    .info-chip .material-symbols-outlined { font-size: 14px; }
+
+    .info-status-needs {
+      background: var(--md-sys-color-error-container);
+      color: var(--md-sys-color-on-error-container);
+    }
+
+    .info-status-handled {
+      background: var(--md-sys-color-success-container);
+      color: var(--md-sys-color-on-success-container);
+    }
+
+    .action-button {
+      min-height: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: var(--md-sys-shape-corner-full);
+      padding: 0 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: var(--md-sys-typescale-label-large-size);
+      font-weight: 600;
+      letter-spacing: var(--md-sys-typescale-label-large-tracking);
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.08);
+      transition: opacity 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+
+    .action-button:hover {
+      opacity: 0.94;
+      box-shadow: 0 2px 6px rgba(16, 24, 40, 0.14);
+    }
+
+    .action-button:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.12);
+    }
+
+    .action-button.action-secondary {
+      background: var(--md-sys-color-surface-container);
+      color: var(--md-sys-color-on-surface);
+      box-shadow: none;
+      border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .action-button.action-secondary:hover {
+      background: var(--md-sys-color-surface-container-high);
+      opacity: 1;
+    }
+
+    .action-button .material-symbols-outlined { font-size: 18px; }
+
+    .messages {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      background: var(--md-sys-color-surface-container-lowest);
+    }
+
+    .day-chip {
+      align-self: center;
+      color: var(--md-sys-color-on-surface-muted);
+      background: var(--md-sys-color-surface-container);
+      border-radius: var(--md-sys-shape-corner-full);
+      padding: 4px 12px;
+      font-size: var(--md-sys-typescale-label-small-size);
+      font-weight: 600;
+    }
+
+    .message-row { display: flex; width: 100%; gap: var(--space-2); }
+
+    .message-row.user { justify-content: flex-start; }
+    .message-row.admin { justify-content: flex-end; }
+    .message-row.system { justify-content: center; }
+
+    .message-bubble-group { display: grid; gap: 4px; }
+
+    .message-row.user .message-bubble-group { max-width: min(560px, 78%); }
+    .message-row.admin .message-bubble-group { max-width: min(420px, 60%); }
+
+    .message-bubble {
+      padding: 10px 14px;
+      font-size: var(--md-sys-typescale-body-large-size);
+      line-height: var(--md-sys-typescale-body-large-line);
+      letter-spacing: var(--md-sys-typescale-body-large-tracking);
+      white-space: pre-line;
+      word-break: break-word;
+    }
+
+    .message-row.user .message-bubble {
+      border-radius: var(--space-5) var(--space-5) var(--space-5) 4px;
+      background: var(--md-sys-color-surface-container);
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .message-row.admin .message-bubble {
+      border-radius: var(--space-5) var(--space-5) 4px var(--space-5);
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+    }
+
+    .sticker-bubble {
+      width: 84px;
+      height: 84px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--space-5) var(--space-5) var(--space-5) 4px;
+      background: var(--md-sys-color-surface-container);
+      color: var(--md-sys-color-primary);
+    }
+
+    .sticker-bubble .material-symbols-outlined { font-size: 56px; }
+
+    .system-row {
+      max-width: 88%;
+      padding: 8px 14px;
+      border-radius: var(--md-sys-shape-corner-full);
+      background: var(--md-sys-color-surface-container);
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: var(--md-sys-typescale-body-small-size);
+      line-height: var(--md-sys-typescale-body-small-line);
+      font-style: italic;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .system-row .material-symbols-outlined { font-size: 16px; }
+
+    .message-meta {
+      color: var(--md-sys-color-on-surface-muted);
+      font-size: var(--md-sys-typescale-body-medium-size);
+      line-height: var(--md-sys-typescale-body-medium-line);
+      letter-spacing: var(--md-sys-typescale-body-medium-tracking);
+    }
+
+    .message-row.admin .message-meta { text-align: right; }
+
+    .composer {
+      padding: var(--space-3) var(--space-4);
+      border-top: 1px solid var(--md-sys-color-outline-variant);
+      background: var(--md-sys-color-surface-container-lowest);
+      display: flex;
+      align-items: flex-end;
+      gap: var(--space-2);
+      border-radius: 0 0 var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large);
+    }
+
+    .composer-input {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: var(--md-sys-shape-corner-full);
+      background: var(--md-sys-color-surface-container-lowest);
+      padding: 4px 8px 4px 12px;
+    }
+
+    .composer-input:focus-within { border-color: var(--md-sys-color-primary); }
+
+    .composer textarea {
+      flex: 1;
+      min-height: 36px;
+      max-height: 110px;
+      resize: none;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: var(--md-sys-color-on-surface);
+      padding: 6px 4px;
+      font-size: var(--md-sys-typescale-body-large-size);
+      line-height: var(--md-sys-typescale-body-large-line);
+      letter-spacing: var(--md-sys-typescale-body-large-tracking);
+    }
+
+    .icon-button {
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: var(--md-sys-shape-corner-full);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      background: transparent;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .icon-button:hover { background: var(--md-sys-color-surface-container); }
+
+    .icon-button.primary {
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+    }
+
+    .icon-button.primary:hover { background: var(--md-sys-color-primary); opacity: 0.88; }
+
+    .icon-button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      right: auto;
+      bottom: var(--space-6);
+      z-index: 60;
+      min-width: 240px;
+      max-width: 380px;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--md-sys-shape-corner-medium);
+      background: #1d1b20;
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      font-size: var(--md-sys-typescale-body-medium-size);
+      opacity: 0;
+      transform: translate(-50%, 8px);
+      transition: opacity 160ms ease, transform 160ms ease;
+      pointer-events: none;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .control-panel {
+      position: fixed;
+      left: var(--space-4);
+      bottom: var(--space-4);
+      z-index: 70;
+      width: var(--panel-width);
+      max-width: calc(100vw - 32px);
+      background: var(--md-sys-color-surface-container-lowest);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: var(--md-sys-shape-corner-large);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      width: 100%;
+      border: 0;
+      background: var(--md-sys-color-on-surface);
+      color: var(--md-sys-color-surface-container-lowest);
+      padding: 14px var(--space-4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      cursor: pointer;
+      font-size: var(--md-sys-typescale-label-large-size);
+      font-weight: 700;
+    }
+
+    .panel-head-title {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .panel-body {
+      max-height: var(--panel-body-height);
+      overflow: auto;
+      padding: var(--space-4);
+      display: grid;
+      gap: var(--space-4);
+      transition: max-height 200ms ease, padding 200ms ease, opacity 160ms ease;
+      opacity: 1;
+    }
+
+    .control-panel.collapsed .panel-body {
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      opacity: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .panel-section { display: grid; gap: var(--space-2); }
+
+    .panel-label {
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: var(--md-sys-typescale-label-small-size);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .panel-chip {
+      border: 1px solid var(--md-sys-color-outline-variant);
+      background: transparent;
+      color: var(--md-sys-color-on-surface);
+      border-radius: var(--md-sys-shape-corner-full);
+      padding: 5px 12px;
+      font-size: var(--md-sys-typescale-label-medium-size);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .panel-chip.active {
+      background: var(--md-sys-color-primary);
+      border-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+    }
+
+    .panel-select {
+      width: 100%;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: var(--md-sys-shape-corner-small);
+      padding: 8px 12px;
+      background: var(--md-sys-color-surface-container-lowest);
+      color: var(--md-sys-color-on-surface);
+      font-size: var(--md-sys-typescale-body-medium-size);
+    }
+
+    .panel-select:focus { outline: none; border-color: var(--md-sys-color-primary); }
+
+    .panel-help {
+      color: var(--md-sys-color-on-surface-muted);
+      font-size: var(--md-sys-typescale-body-small-size);
+      line-height: var(--md-sys-typescale-body-small-line);
+    }
+
+    .panel-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+    .panel-actions .chip-button { flex: 1; justify-content: center; min-width: 0; }
+
+    .toggle-row {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: 6px 0;
+      color: var(--md-sys-color-on-surface);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .toggle-mark {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--md-sys-color-outline);
+      border-radius: 5px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 18px;
+      margin-top: 1px;
+      color: var(--md-sys-color-on-primary);
+      transition: background 120ms ease, border-color 120ms ease;
+    }
+
+    .toggle-mark .material-symbols-outlined {
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 120ms ease;
+    }
+
+    .toggle-row.active .toggle-mark {
+      background: var(--md-sys-color-primary);
+      border-color: var(--md-sys-color-primary);
+    }
+
+    .toggle-row.active .toggle-mark .material-symbols-outlined { opacity: 1; }
+
+    .toggle-copy { display: grid; gap: 2px; min-width: 0; }
+    .toggle-title { font-size: var(--md-sys-typescale-body-medium-size); font-weight: 700; }
+    .toggle-desc {
+      color: var(--md-sys-color-on-surface-muted);
+      font-size: var(--md-sys-typescale-body-small-size);
+      line-height: var(--md-sys-typescale-body-small-line);
+    }
+
+    .panel-reset {
+      width: 100%;
+      border: 0;
+      border-radius: var(--md-sys-shape-corner-small);
+      min-height: 40px;
+      background: var(--md-sys-color-error);
+      color: var(--md-sys-color-on-error);
+      cursor: pointer;
+      font-size: var(--md-sys-typescale-label-large-size);
+      font-weight: 700;
+    }
+
+    @media (max-width: 1080px) { :root { --thread-list-width: 360px; } }
+
+    @media (max-width: 960px) {
+      .admin-main { padding: var(--space-4); }
+      .dm-surface { display: block; height: 100%; }
+      .thread-sidebar,
+      .conversation-pane { width: 100%; height: 100%; padding: 0; flex: none; }
+      .pane-divider { display: none; }
+      body[data-mobile-view="list"] .conversation-pane { display: none; }
+      body[data-mobile-view="detail"] .thread-sidebar { display: none; }
+      body[data-mobile-view="detail"] .conversation-back { display: inline-flex; }
+      .control-panel { left: var(--space-4); right: var(--space-4); width: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <nav class="nav-rail" aria-label="Admin navigation">
+      <div class="brand-mark">CMN</div>
+      <button class="nav-item" type="button">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span data-i18n="navHome">Home</span>
+      </button>
+      <button class="nav-item" type="button">
+        <span class="material-symbols-outlined">group</span>
+        <span data-i18n="navUsers">Users</span>
+      </button>
+      <button class="nav-item active" type="button" aria-current="page">
+        <span class="material-symbols-outlined">forum</span>
+        <span data-i18n="navDm">DM</span>
+      </button>
+      <button class="nav-item" type="button">
+        <span class="material-symbols-outlined">mail</span>
+        <span data-i18n="navAutoDm">Auto DM</span>
+      </button>
+      <button class="nav-item" type="button">
+        <span class="material-symbols-outlined">event</span>
+        <span data-i18n="navEvents">Events</span>
+      </button>
+      <button class="nav-item" type="button">
+        <span class="material-symbols-outlined">settings</span>
+        <span data-i18n="navSettings">Settings</span>
+      </button>
+      <div class="nav-spacer"></div>
+      <button class="nav-item" type="button">
+        <span class="material-symbols-outlined">help</span>
+        <span data-i18n="navHelp">Help</span>
+      </button>
+    </nav>
+
+    <main class="admin-main">
+      <section class="dm-surface" aria-label="Direct messages prototype">
+        <aside class="thread-sidebar" aria-label="Thread list">
+          <nav class="breadcrumb" data-i18n="breadcrumb">Direct Messages / Inbox</nav>
+          <h1 class="screen-title typescale-title-large" data-i18n="pageTitle">Direct Messages</h1>
+          <div class="search-field">
+            <span class="material-symbols-outlined">search</span>
+            <input id="searchInput" type="search" autocomplete="off" />
+          </div>
+          <div class="list-meta">
+            <span class="section-label" data-i18n="threadListLabel">Thread list</span>
+            <div class="sort-toggle" role="tablist" aria-label="Sort threads">
+              <button class="sort-button active" type="button" data-sort="priority">
+                <span class="material-symbols-outlined">push_pin</span>
+                <span data-i18n="sortPriority">Priority</span>
+              </button>
+              <button class="sort-button" type="button" data-sort="recent">
+                <span class="material-symbols-outlined">schedule</span>
+                <span data-i18n="sortRecent">Recent</span>
+              </button>
+            </div>
+          </div>
+          <ul class="thread-list" id="threadList"></ul>
+        </aside>
+
+        <div class="pane-divider" aria-hidden="true"></div>
+
+        <section class="conversation-pane" aria-label="Selected thread">
+          <header class="conversation-header">
+            <button class="conversation-back" type="button" id="conversationBack" aria-label="Back to thread list">
+              <span class="material-symbols-outlined">arrow_back</span>
+            </button>
+            <div class="conversation-title-group">
+              <h2 class="conversation-title" id="conversationTitle">-</h2>
+              <div class="conversation-meta" id="conversationMeta">-</div>
+              <div class="conversation-info-row">
+                <span id="conversationStatus"></span>
+              </div>
+            </div>
+            <div class="conversation-actions">
+              <button class="action-button" type="button" id="toggleStatusButton"></button>
+            </div>
+          </header>
+
+          <div class="messages" id="messages"></div>
+
+          <footer class="composer">
+            <button class="icon-button" type="button" aria-label="Attach file">
+              <span class="material-symbols-outlined">attach_file</span>
+            </button>
+            <div class="composer-input">
+              <textarea id="replyText" rows="1"></textarea>
+              <button class="icon-button" type="button" aria-label="Insert emoji">
+                <span class="material-symbols-outlined">emoji_emotions</span>
+              </button>
+            </div>
+            <button class="icon-button primary" type="button" id="sendReplyButton" aria-label="Send reply">
+              <span class="material-symbols-outlined">send</span>
+            </button>
+          </footer>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <section class="control-panel" id="controlPanel" aria-label="Control panel">
+    <button class="panel-head" type="button" id="panelToggle" aria-expanded="true">
+      <span class="panel-head-title">
+        <span class="material-symbols-outlined">tune</span>
+        <span data-i18n="panelTitle">Control panel</span>
+      </span>
+      <span class="material-symbols-outlined" id="panelChevron">keyboard_arrow_down</span>
+    </button>
+    <div class="panel-body" id="panelBody"></div>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const translations = {
+      en: {
+        navHome: 'Home',
+        navUsers: 'Users',
+        navDm: 'DM',
+        navAutoDm: 'Auto DM',
+        navEvents: 'Events',
+        navSettings: 'Settings',
+        navHelp: 'Help',
+        breadcrumb: 'Direct Messages / Inbox',
+        pageTitle: 'Direct Messages',
+        threadListLabel: 'Thread list',
+        searchPlaceholder: 'Search user',
+        sortPriority: 'Priority',
+        sortRecent: 'Recent',
+        emptyTitle: 'No threads match this search',
+        emptyBody: 'Try a different keyword or load another scenario.',
+        markHandled: 'Mark handled',
+        reopen: 'Reopen',
+        statusNeeds: 'Needs response',
+        statusHandled: 'Handled',
+        replyPlaceholder: 'Write a reply',
+        today: 'Today',
+        yesterday: 'Yesterday',
+        sentBy: 'Sent by',
+        threadId: 'Thread',
+        autoRevertedBy: 'Reopened automatically when {name} replied at {time}.',
+        stickerLabel: 'Sticker',
+        panelTitle: 'Control panel',
+        scenarioLabel: 'Scenario',
+        languageLabel: 'Language',
+        actionsLabel: 'Actions',
+        automationLabel: 'Automation',
+        autoNeeds: 'When a user sends a new message, mark as Needs response',
+        autoNeedsDesc: 'Inbound messages reopen the thread automatically.',
+        autoHandled: 'When the admin replies, mark as Handled',
+        autoHandledDesc: 'Sending a reply closes the thread automatically.',
+        simulateUserShort: 'Simulate user message',
+        resetScenario: 'Reset scenario',
+        resetCopy: 'Reset reloads the current scenario fixture.',
+        toastHandled: 'Marked handled.',
+        toastReopened: 'Reopened as needs response.',
+        toastSentHandled: 'Sent. Closed as handled.',
+        toastSentOnly: 'Reply sent.',
+        toastInboundNeeds: 'New user message. Reopened as Needs response.',
+        toastInboundOnly: 'New user message received.',
+        toastScenarioLoaded: 'Scenario loaded.',
+        toastReset: 'Scenario reset.',
+        toastLanguage: 'Language updated.',
+        scenarios: {
+          defaultQueue: { title: 'Default queue', desc: 'A typical mix of open and handled DMs, including a stamp-only reply that needs manual close.' },
+          followUp: { title: 'Follow-up after handled', desc: 'A previously handled thread receives a new user message and auto-reverts to Needs response.' },
+          backlog: { title: 'Heavy backlog', desc: 'A large queue inspired by spreadsheet-managed customers like MIXI.' }
+        }
+      },
+      ja: {
+        navHome: 'ホーム',
+        navUsers: 'ユーザー',
+        navDm: 'DM',
+        navAutoDm: '自動DM',
+        navEvents: 'イベント',
+        navSettings: '設定',
+        navHelp: 'ヘルプ',
+        breadcrumb: 'ダイレクトメッセージ / 一覧',
+        pageTitle: 'ダイレクトメッセージ',
+        threadListLabel: 'スレッド一覧',
+        searchPlaceholder: 'ユーザーを検索',
+        sortPriority: '優先度順',
+        sortRecent: '新着順',
+        emptyTitle: '検索条件に合うスレッドがありません',
+        emptyBody: 'キーワードを変えるか、別のシナリオを読み込んでください。',
+        markHandled: '対応済みにする',
+        reopen: '要対応に戻す',
+        statusNeeds: '要対応',
+        statusHandled: '対応済み',
+        replyPlaceholder: 'メッセージを入力',
+        today: '今日',
+        yesterday: '昨日',
+        sentBy: '送信者',
+        threadId: 'スレッド',
+        autoRevertedBy: '{time} に{name}の返信で自動的に要対応に戻りました。',
+        stickerLabel: 'スタンプ',
+        panelTitle: '操作パネル',
+        scenarioLabel: 'シナリオ',
+        languageLabel: '言語',
+        actionsLabel: '操作',
+        automationLabel: '自動処理',
+        autoNeeds: 'ユーザーDM受信時に自動で要対応にする',
+        autoNeedsDesc: '新着DMでスレッドが自動的に要対応に戻ります。',
+        autoHandled: '管理者返信時に自動で対応済みにする',
+        autoHandledDesc: '返信送信でスレッドが自動的に対応済みになります。',
+        simulateUserShort: 'ユーザーDMを再現',
+        resetScenario: 'シナリオを初期化',
+        resetCopy: '現在のシナリオを最初の状態に戻します。',
+        toastHandled: '対応済みにしました。',
+        toastReopened: '要対応に戻しました。',
+        toastSentHandled: '送信し、対応済みにしました。',
+        toastSentOnly: '返信を送信しました。',
+        toastInboundNeeds: '新着DMを受信し、要対応に戻しました。',
+        toastInboundOnly: '新着DMを受信しました。',
+        toastScenarioLoaded: 'シナリオを読み込みました。',
+        toastReset: 'シナリオを初期化しました。',
+        toastLanguage: '言語を切り替えました。',
+        scenarios: {
+          defaultQueue: { title: '通常キュー', desc: '要対応と対応済みが混在し、スタンプのみ返信を含む標準のDM一覧です。' },
+          followUp: { title: '対応済みからの追加質問', desc: '対応済みスレッドに新着が届き、要対応に自動的に戻る挙動を確認できます。' },
+          backlog: { title: '大量バックログ', desc: 'スプレッドシート運用を想定した、件数が多めのキューです。' }
+        }
+      }
+    };
+
+    const SCENARIO_IDS = ['defaultQueue', 'followUp', 'backlog'];
+    const CURRENT_ADMIN = 'Current admin';
+
+    const state = {
+      lang: 'en',
+      scenario: 'defaultQueue',
+      sort: 'priority',
+      selectedThreadId: '',
+      search: '',
+      panelCollapsed: false,
+      debug: { autoNeeds: true, autoHandled: true },
+      threads: []
+    };
+
+    const elements = {
+      html: document.documentElement,
+      threadList: document.getElementById('threadList'),
+      searchInput: document.getElementById('searchInput'),
+      sortButtons: document.querySelectorAll('[data-sort]'),
+      conversationTitle: document.getElementById('conversationTitle'),
+      conversationMeta: document.getElementById('conversationMeta'),
+      conversationStatus: document.getElementById('conversationStatus'),
+      conversationBack: document.getElementById('conversationBack'),
+      toggleStatusButton: document.getElementById('toggleStatusButton'),
+      messages: document.getElementById('messages'),
+      replyText: document.getElementById('replyText'),
+      sendReplyButton: document.getElementById('sendReplyButton'),
+      controlPanel: document.getElementById('controlPanel'),
+      panelToggle: document.getElementById('panelToggle'),
+      panelChevron: document.getElementById('panelChevron'),
+      panelBody: document.getElementById('panelBody'),
+      toast: document.getElementById('toast')
+    };
+
+    function t(key) {
+      return translations[state.lang][key] ?? translations.en[key] ?? key;
+    }
+
+    function tFormat(key, vars) {
+      let str = t(key);
+      Object.entries(vars || {}).forEach(([k, v]) => {
+        str = str.split(`{${k}}`).join(String(v));
+      });
+      return str;
+    }
+
+    function tScenario(id, field) {
+      return translations[state.lang].scenarios?.[id]?.[field] ?? translations.en.scenarios[id][field];
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function nowLabel() {
+      return new Date().toLocaleTimeString(state.lang === 'ja' ? 'ja-JP' : 'en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function img(n) { return `https://i.pravatar.cc/96?img=${n}`; }
+
+    function avatarHtml(person, opts) {
+      const initials = escapeHtml(person.initials);
+      const cls = opts && opts.compact ? 'avatar compact' : 'avatar';
+      if (person.avatarImg) {
+        return `<span class="${cls}"><span class="avatar-fallback">${initials}</span><img src="${escapeHtml(person.avatarImg)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" /></span>`;
+      }
+      return `<span class="${cls}"><span class="avatar-fallback">${initials}</span></span>`;
+    }
+
+    function makeThread(t) {
+      return Object.assign({
+        id: '',
+        name: '',
+        initials: '',
+        avatarImg: '',
+        status: 'needs',
+        latest: '',
+        latestKind: 'text',
+        time: '',
+        sortKey: 0,
+        messages: []
+      }, t);
+    }
+
+    function defaultQueueThreads() {
+      return [
+        makeThread({
+          id: 'dm-1001',
+          name: 'けんた',
+          initials: 'KT',
+          avatarImg: img(33),
+          status: 'needs',
+          latest: 'I want to cancel my subscription. How do I close my account?',
+          time: '14:12',
+          sortKey: 1412,
+          messages: [
+            { from: 'user', author: 'けんた', time: '14:12', text: 'I want to cancel my subscription. How do I close my account?' }
+          ]
+        }),
+        makeThread({
+          id: 'dm-1002',
+          name: 'event-staff',
+          initials: 'ES',
+          avatarImg: '',
+          status: 'needs',
+          latest: 'The event registration link expired. Can someone refresh it?',
+          time: '13:48',
+          sortKey: 1348,
+          messages: [
+            { from: 'admin', author: 'Kobayashi', time: '12:36', text: 'Here is the event registration link.' },
+            { from: 'user', author: 'event-staff', time: '13:48', text: 'The event registration link expired. Can someone refresh it?' }
+          ]
+        }),
+        makeThread({
+          id: 'dm-1003',
+          name: 'Maria K',
+          initials: 'MK',
+          avatarImg: img(47),
+          status: 'handled',
+          latest: 'Thanks, that solved it.',
+          time: '11:22',
+          sortKey: 1122,
+          messages: [
+            { from: 'user', author: 'Maria K', time: '10:50', text: 'I cannot find the registration button on the event page.' },
+            { from: 'admin', author: 'Arai', time: '11:08', text: 'The button is now visible. Please reload the page.' },
+            { from: 'user', author: 'Maria K', time: '11:22', text: 'Thanks, that solved it.' }
+          ]
+        }),
+        makeThread({
+          id: 'dm-1004',
+          name: '田中ひろき',
+          initials: 'TH',
+          avatarImg: '',
+          status: 'needs',
+          latest: 'Could I move my next event seat to a friend?',
+          time: '10:50',
+          sortKey: 1050,
+          messages: [
+            { from: 'user', author: '田中ひろき', time: '10:50', text: 'Could I move my next event seat to a friend?' }
+          ]
+        }),
+        makeThread({
+          id: 'dm-1005',
+          name: 'アイコ',
+          initials: 'AI',
+          avatarImg: img(25),
+          status: 'needs',
+          latestKind: 'sticker',
+          latest: '',
+          time: '09:30',
+          sortKey: 930,
+          messages: [
+            { from: 'user', author: 'アイコ', time: '09:00', text: 'Could you check my membership status?' },
+            { from: 'admin', author: 'Arai', time: '09:18', text: 'Your membership is active until next March.' },
+            { from: 'user', author: 'アイコ', time: '09:30', kind: 'sticker' }
+          ]
+        }),
+        makeThread({
+          id: 'dm-1006',
+          name: 'Auto DM',
+          initials: 'AD',
+          avatarImg: '',
+          status: 'handled',
+          latest: 'Welcome to the community.',
+          time: 'Yesterday',
+          sortKey: -1,
+          messages: [
+            { from: 'admin', author: 'Auto DM', time: 'Yesterday', text: 'Welcome to the community. Please complete your profile to unlock all features.' }
+          ]
+        })
+      ];
+    }
+
+    function followUpThreads() {
+      return [
+        makeThread({
+          id: 'dm-2001',
+          name: 'sora_event',
+          initials: 'SO',
+          avatarImg: img(54),
+          status: 'needs',
+          latest: 'Sorry, I tried again but the badge still does not show up.',
+          time: 'Now',
+          sortKey: 2400,
+          messages: [
+            { from: 'user', author: 'sora_event', time: '09:14', text: 'My badge is missing after the event.' },
+            { from: 'admin', author: 'Arai', time: '09:42', text: 'The badge has been re-issued. Please log out and back in.' },
+            { from: 'user', author: 'sora_event', time: 'Now', text: 'Sorry, I tried again but the badge still does not show up.' },
+            { from: 'system', kind: 'auto-revert', author: 'sora_event', time: 'Now' }
+          ]
+        }),
+        makeThread({
+          id: 'dm-2002',
+          name: 'hiro_dev',
+          initials: 'HD',
+          avatarImg: img(12),
+          status: 'handled',
+          latest: 'Thanks, see you next week.',
+          time: '10:18',
+          sortKey: 1018,
+          messages: [
+            { from: 'user', author: 'hiro_dev', time: '09:50', text: 'Could I get a calendar invite for the meetup?' },
+            { from: 'admin', author: 'Kobayashi', time: '10:05', text: 'Calendar invite sent.' },
+            { from: 'user', author: 'hiro_dev', time: '10:18', text: 'Thanks, see you next week.' }
+          ]
+        }),
+        makeThread({
+          id: 'dm-2003',
+          name: '山口リサ',
+          initials: 'YR',
+          avatarImg: img(38),
+          status: 'needs',
+          latest: 'Is the speaker line-up confirmed for next month?',
+          time: 'Yesterday 16:00',
+          sortKey: -200,
+          messages: [
+            { from: 'user', author: '山口リサ', time: 'Yesterday 16:00', text: 'Is the speaker line-up confirmed for next month?' }
+          ]
+        }),
+        makeThread({
+          id: 'dm-2004',
+          name: 'mei.s',
+          initials: 'MS',
+          avatarImg: img(62),
+          status: 'handled',
+          latest: 'All good.',
+          time: 'Yesterday',
+          sortKey: -300,
+          messages: [
+            { from: 'user', author: 'mei.s', time: 'Yesterday', text: 'Is the survey still open?' },
+            { from: 'admin', author: 'Arai', time: 'Yesterday', text: 'Yes, until Friday.' },
+            { from: 'user', author: 'mei.s', time: 'Yesterday', text: 'All good.' }
+          ]
+        })
+      ];
+    }
+
+    function backlogThreads() {
+      const head = [
+        makeThread({
+          id: 'dm-5001', name: 'けんた', initials: 'KT', avatarImg: img(33), status: 'needs',
+          latest: 'I want to cancel my subscription. How do I close my account?', time: '14:12', sortKey: 1412,
+          messages: [{ from: 'user', author: 'けんた', time: '14:12', text: 'I want to cancel my subscription. How do I close my account?' }]
+        }),
+        makeThread({
+          id: 'dm-5002', name: 'event-staff', initials: 'ES', avatarImg: '', status: 'needs',
+          latest: 'The event registration link expired. Can someone refresh it?', time: '13:48', sortKey: 1348,
+          messages: [{ from: 'user', author: 'event-staff', time: '13:48', text: 'The event registration link expired. Can someone refresh it?' }]
+        }),
+        makeThread({
+          id: 'dm-5003', name: 'Inoue Rena', initials: 'IR', avatarImg: img(38), status: 'needs',
+          latest: 'I was double charged this month, please refund.', time: '12:14', sortKey: 1214,
+          messages: [{ from: 'user', author: 'Inoue Rena', time: '12:14', text: 'I was double charged this month, please refund.' }]
+        }),
+        makeThread({
+          id: 'dm-5004', name: 'Nakamura Sho', initials: 'NS', avatarImg: img(12), status: 'needs',
+          latest: 'I cannot delete my old comment.', time: '11:55', sortKey: 1155,
+          messages: [{ from: 'user', author: 'Nakamura Sho', time: '11:55', text: 'I cannot delete my old comment.' }]
+        }),
+        makeThread({
+          id: 'dm-5005', name: 'アイコ', initials: 'AI', avatarImg: img(25), status: 'needs',
+          latest: '', latestKind: 'sticker', time: '11:30', sortKey: 1130,
+          messages: [
+            { from: 'admin', author: 'Arai', time: '11:18', text: 'Your membership is active until next March.' },
+            { from: 'user', author: 'アイコ', time: '11:30', kind: 'sticker' }
+          ]
+        }),
+        makeThread({
+          id: 'dm-5006', name: 'Maria K', initials: 'MK', avatarImg: img(47), status: 'handled',
+          latest: 'Thanks, that solved it.', time: '11:22', sortKey: 1122,
+          messages: [{ from: 'user', author: 'Maria K', time: '11:22', text: 'Thanks, that solved it.' }]
+        }),
+        makeThread({
+          id: 'dm-5007', name: 'Watanabe Rina', initials: 'WR', avatarImg: img(41), status: 'handled',
+          latest: 'Thank you for the quick confirmation.', time: '11:20', sortKey: 1120,
+          messages: [{ from: 'user', author: 'Watanabe Rina', time: '11:20', text: 'Thank you for the quick confirmation.' }]
+        }),
+        makeThread({
+          id: 'dm-5008', name: 'Kobayashi Minato', initials: 'KM', avatarImg: img(54), status: 'needs',
+          latest: 'The reminder email was sent twice today.', time: '10:49', sortKey: 1049,
+          messages: [{ from: 'user', author: 'Kobayashi Minato', time: '10:49', text: 'The reminder email was sent twice today.' }]
+        }),
+        makeThread({
+          id: 'dm-5009', name: 'daichi', initials: 'DA', avatarImg: '', status: 'handled',
+          latest: 'I will check internally and follow up.', time: '10:42', sortKey: 1042,
+          messages: [{ from: 'admin', author: 'Kobayashi', time: '10:42', text: 'I will check internally and follow up.' }]
+        }),
+        makeThread({
+          id: 'dm-5010', name: 'Hayasaka Nana', initials: 'HN', avatarImg: img(62), status: 'handled',
+          latest: 'Got the invitation email, thanks.', time: '10:21', sortKey: 1021,
+          messages: [{ from: 'user', author: 'Hayasaka Nana', time: '10:21', text: 'Got the invitation email, thanks.' }]
+        }),
+        makeThread({
+          id: 'dm-5011', name: 'Abe Sora', initials: 'AS', avatarImg: '', status: 'needs',
+          latest: 'Please confirm the cancellation flow.', time: '09:58', sortKey: 958,
+          messages: [{ from: 'user', author: 'Abe Sora', time: '09:58', text: 'Please confirm the cancellation flow.' }]
+        }),
+        makeThread({
+          id: 'dm-5012', name: 'beta-testers', initials: 'BT', avatarImg: '', status: 'handled',
+          latest: 'Closed by mistake. Reopen if you still need help.', time: '09:50', sortKey: 950,
+          messages: [{ from: 'admin', author: 'Arai', time: '09:50', text: 'Closed by mistake. Reopen if you still need help.' }]
+        }),
+        makeThread({
+          id: 'dm-5013', name: 'イベント運営班', initials: 'EV', avatarImg: '', status: 'needs',
+          latest: 'We need a sponsor banner for the next event.', time: '09:32', sortKey: 932,
+          messages: [{ from: 'user', author: 'イベント運営班', time: '09:32', text: 'We need a sponsor banner for the next event.' }]
+        }),
+        makeThread({
+          id: 'dm-5014', name: 'mod-team', initials: 'MT', avatarImg: '', status: 'needs',
+          latest: 'Can we get a moderator action log?', time: '08:48', sortKey: 848,
+          messages: [{ from: 'user', author: 'mod-team', time: '08:48', text: 'Can we get a moderator action log?' }]
+        }),
+        makeThread({
+          id: 'dm-5015', name: 'Auto DM', initials: 'AD', avatarImg: '', status: 'handled',
+          latest: 'Welcome to the community.', time: 'Yesterday', sortKey: -1,
+          messages: [{ from: 'admin', author: 'Auto DM', time: 'Yesterday', text: 'Welcome to the community.' }]
+        })
+      ];
+      return head;
+    }
+
+    function scenarioThreads(scenarioId) {
+      switch (scenarioId) {
+        case 'followUp': return followUpThreads();
+        case 'backlog': return backlogThreads();
+        case 'defaultQueue':
+        default: return defaultQueueThreads();
+      }
+    }
+
+    function resetScenario(scenarioId, announce) {
+      state.scenario = scenarioId || state.scenario;
+      state.threads = scenarioThreads(state.scenario);
+      state.selectedThreadId = state.threads[0]?.id || '';
+      state.search = '';
+      if (elements.searchInput) elements.searchInput.value = '';
+      if (announce) showToast(t('toastScenarioLoaded'));
+      render();
+    }
+
+    function selectedThread() {
+      return state.threads.find((thread) => thread.id === state.selectedThreadId) || state.threads[0];
+    }
+
+    function moveThreadToTop(id) {
+      const thread = state.threads.find((item) => item.id === id);
+      if (!thread) return;
+      state.threads = [thread, ...state.threads.filter((item) => item.id !== id)];
+    }
+
+    function statusChip(status) {
+      const isNeeds = status === 'needs';
+      const className = isNeeds ? 'info-status-needs' : 'info-status-handled';
+      const icon = isNeeds ? 'priority_high' : 'check';
+      const label = isNeeds ? t('statusNeeds') : t('statusHandled');
+      return `<span class="info-chip ${className}"><span class="material-symbols-outlined">${icon}</span>${escapeHtml(label)}</span>`;
+    }
+
+    function sortThreads(threads) {
+      const copy = [...threads];
+      if (state.sort === 'priority') {
+        copy.sort((a, b) => {
+          if (a.status !== b.status) return a.status === 'needs' ? -1 : 1;
+          return b.sortKey - a.sortKey;
+        });
+      } else {
+        copy.sort((a, b) => b.sortKey - a.sortKey);
+      }
+      return copy;
+    }
+
+    function visibleThreads() {
+      const query = state.search.trim().toLowerCase();
+      const sorted = sortThreads(state.threads);
+      if (!query) return sorted;
+      return sorted.filter((thread) => {
+        const blob = [thread.name, thread.latest].join(' ').toLowerCase();
+        return blob.includes(query);
+      });
+    }
+
+    function showToast(message) {
+      elements.toast.textContent = message;
+      elements.toast.classList.add('show');
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => elements.toast.classList.remove('show'), 2000);
+    }
+
+    function previewHtml(thread) {
+      if (thread.latestKind === 'sticker') {
+        return `<span class="material-symbols-outlined">emoji_emotions</span>${escapeHtml(t('stickerLabel'))}`;
+      }
+      return escapeHtml(thread.latest || '');
+    }
+
+    function renderStatic() {
+      elements.html.lang = state.lang;
+      document.querySelectorAll('[data-i18n]').forEach((node) => {
+        node.textContent = t(node.dataset.i18n);
+      });
+      elements.searchInput.placeholder = t('searchPlaceholder');
+      elements.replyText.placeholder = t('replyPlaceholder');
+      elements.sortButtons.forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.sort === state.sort);
+      });
+    }
+
+    function renderThreadList() {
+      const rows = visibleThreads();
+      if (!rows.length) {
+        elements.threadList.innerHTML = `
+          <li class="empty-list">
+            <span class="material-symbols-outlined">inbox</span>
+            <strong>${escapeHtml(t('emptyTitle'))}</strong>
+            <span>${escapeHtml(t('emptyBody'))}</span>
+          </li>
+        `;
+        return;
+      }
+      elements.threadList.innerHTML = rows.map((thread) => `
+        <li>
+          <button class="thread-item ${thread.id === state.selectedThreadId ? 'selected' : ''}" type="button" data-thread-id="${escapeHtml(thread.id)}">
+            ${avatarHtml(thread)}
+            <span class="thread-content">
+              <span class="thread-name">${escapeHtml(thread.name)}</span>
+              <span class="thread-preview">${previewHtml(thread)}</span>
+            </span>
+            <span class="thread-side">
+              <span class="timestamp">${escapeHtml(thread.time)}</span>
+              ${thread.status === 'needs' ? '<span class="needs-dot" aria-hidden="true"></span>' : ''}
+            </span>
+          </button>
+        </li>
+      `).join('');
+      elements.threadList.querySelectorAll('[data-thread-id]').forEach((node) => {
+        node.addEventListener('click', () => {
+          state.selectedThreadId = node.dataset.threadId;
+          document.body.dataset.mobileView = 'detail';
+          render();
+        });
+      });
+    }
+
+    function renderMessage(message) {
+      if (message.from === 'system' && message.kind === 'auto-revert') {
+        const text = tFormat('autoRevertedBy', { name: message.author, time: message.time });
+        return `
+          <div class="message-row system">
+            <span class="system-row"><span class="material-symbols-outlined">sync_problem</span>${escapeHtml(text)}</span>
+          </div>
+        `;
+      }
+      const fromClass = message.from === 'admin' ? 'admin' : 'user';
+      const bubble = message.kind === 'sticker'
+        ? `<span class="sticker-bubble"><span class="material-symbols-outlined">emoji_emotions</span></span>`
+        : `<div class="message-bubble">${escapeHtml(message.text || '')}</div>`;
+      return `
+        <div class="message-row ${fromClass}">
+          <div class="message-bubble-group">
+            ${bubble}
+            <div class="message-meta">${escapeHtml(message.author)} ${escapeHtml(message.time)}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderConversation() {
+      const thread = selectedThread();
+      if (!thread) return;
+      elements.conversationTitle.textContent = thread.name;
+      elements.conversationMeta.textContent = `${t('threadId')} ${thread.id}`;
+      elements.conversationStatus.innerHTML = statusChip(thread.status);
+      const toggleIsPrimary = thread.status === 'needs';
+      elements.toggleStatusButton.className = toggleIsPrimary
+        ? 'action-button'
+        : 'action-button action-secondary';
+      elements.toggleStatusButton.innerHTML = toggleIsPrimary
+        ? `<span class="material-symbols-outlined">check</span>${escapeHtml(t('markHandled'))}`
+        : `<span class="material-symbols-outlined">refresh</span>${escapeHtml(t('reopen'))}`;
+      elements.messages.innerHTML = `
+        <div class="day-chip">${escapeHtml(t('today'))}</div>
+        ${thread.messages.map(renderMessage).join('')}
+      `;
+      elements.messages.scrollTop = elements.messages.scrollHeight;
+    }
+
+    function renderControlPanel() {
+      elements.controlPanel.classList.toggle('collapsed', state.panelCollapsed);
+      elements.panelChevron.textContent = state.panelCollapsed ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+      elements.panelToggle.setAttribute('aria-expanded', state.panelCollapsed ? 'false' : 'true');
+
+      elements.panelBody.innerHTML = `
+        <div class="panel-section">
+          <span class="panel-label">${escapeHtml(t('languageLabel'))}</span>
+          <div class="panel-chip-row">
+            ${['en', 'ja'].map((lang) => `
+              <button class="panel-chip ${state.lang === lang ? 'active' : ''}" type="button" data-lang="${lang}">${lang.toUpperCase()}</button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <span class="panel-label">${escapeHtml(t('scenarioLabel'))}</span>
+          <select class="panel-select" id="scenarioSelect">
+            ${SCENARIO_IDS.map((id) => `
+              <option value="${id}" ${state.scenario === id ? 'selected' : ''}>${escapeHtml(tScenario(id, 'title'))}</option>
+            `).join('')}
+          </select>
+          <div class="panel-help">${escapeHtml(tScenario(state.scenario, 'desc'))}</div>
+        </div>
+
+        <div class="panel-section">
+          <span class="panel-label">${escapeHtml(t('actionsLabel'))}</span>
+          <div class="panel-actions">
+            <button class="chip chip-button chip-tonal" type="button" id="simulateUserButton">
+              <span class="material-symbols-outlined">person_add</span>
+              <span>${escapeHtml(t('simulateUserShort'))}</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <span class="panel-label">${escapeHtml(t('automationLabel'))}</span>
+          ${renderToggle('autoNeeds', 'autoNeeds', 'autoNeedsDesc')}
+          ${renderToggle('autoHandled', 'autoHandled', 'autoHandledDesc')}
+        </div>
+
+        <button class="panel-reset" type="button" id="resetButton">${escapeHtml(t('resetScenario'))}</button>
+        <div class="panel-help">${escapeHtml(t('resetCopy'))}</div>
+      `;
+
+      elements.panelBody.querySelectorAll('[data-lang]').forEach((button) => {
+        button.addEventListener('click', () => {
+          state.lang = button.dataset.lang;
+          showToast(t('toastLanguage'));
+          render();
+        });
+      });
+      const scenarioSelect = document.getElementById('scenarioSelect');
+      if (scenarioSelect) {
+        scenarioSelect.addEventListener('change', (event) => {
+          resetScenario(event.target.value, true);
+        });
+      }
+      const simulate = document.getElementById('simulateUserButton');
+      if (simulate) simulate.addEventListener('click', simulateUserMessage);
+      elements.panelBody.querySelectorAll('[data-toggle]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const key = button.dataset.toggle;
+          state.debug[key] = !state.debug[key];
+          render();
+        });
+      });
+      const reset = document.getElementById('resetButton');
+      if (reset) {
+        reset.addEventListener('click', () => {
+          resetScenario(state.scenario, false);
+          showToast(t('toastReset'));
+        });
+      }
+    }
+
+    function renderToggle(key, titleKey, descKey) {
+      return `
+        <button class="toggle-row ${state.debug[key] ? 'active' : ''}" type="button" data-toggle="${key}">
+          <span class="toggle-mark"><span class="material-symbols-outlined">check</span></span>
+          <span class="toggle-copy">
+            <span class="toggle-title">${escapeHtml(t(titleKey))}</span>
+            <span class="toggle-desc">${escapeHtml(t(descKey))}</span>
+          </span>
+        </button>
+      `;
+    }
+
+    function render() {
+      renderStatic();
+      renderThreadList();
+      renderConversation();
+      renderControlPanel();
+    }
+
+    function markThread(thread, status) {
+      thread.status = status;
+    }
+
+    function toggleStatus() {
+      const thread = selectedThread();
+      if (!thread) return;
+      if (thread.status === 'needs') {
+        markThread(thread, 'handled');
+        showToast(t('toastHandled'));
+      } else {
+        markThread(thread, 'needs');
+        showToast(t('toastReopened'));
+      }
+      render();
+    }
+
+    function sendReply() {
+      const thread = selectedThread();
+      if (!thread) return;
+      const text = elements.replyText.value.trim();
+      if (!text) return;
+      const time = nowLabel();
+      thread.messages.push({ from: 'admin', author: CURRENT_ADMIN, time, text });
+      thread.latest = text;
+      thread.latestKind = 'text';
+      thread.time = time;
+      thread.sortKey = Date.now();
+      if (state.debug.autoHandled) {
+        markThread(thread, 'handled');
+        showToast(t('toastSentHandled'));
+      } else {
+        showToast(t('toastSentOnly'));
+      }
+      moveThreadToTop(thread.id);
+      elements.replyText.value = '';
+      render();
+    }
+
+    function simulateUserMessage() {
+      const thread = selectedThread();
+      if (!thread) return;
+      const time = nowLabel();
+      const text = state.lang === 'ja'
+        ? '追加で確認したいことがあります。'
+        : 'Following up on this. Could you take another look?';
+      const wasHandled = thread.status === 'handled';
+      thread.messages.push({ from: 'user', author: thread.name, time, text });
+      thread.latest = text;
+      thread.latestKind = 'text';
+      thread.time = time;
+      thread.sortKey = Date.now();
+      if (state.debug.autoNeeds) {
+        if (wasHandled) {
+          thread.messages.push({ from: 'system', kind: 'auto-revert', author: thread.name, time });
+        }
+        markThread(thread, 'needs');
+        showToast(t('toastInboundNeeds'));
+      } else {
+        showToast(t('toastInboundOnly'));
+      }
+      moveThreadToTop(thread.id);
+      render();
+    }
+
+    elements.searchInput.addEventListener('input', () => {
+      state.search = elements.searchInput.value;
+      renderThreadList();
+    });
+    elements.sortButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        state.sort = button.dataset.sort;
+        render();
+      });
+    });
+    elements.toggleStatusButton.addEventListener('click', toggleStatus);
+    elements.conversationBack.addEventListener('click', () => {
+      document.body.dataset.mobileView = 'list';
+    });
+    elements.sendReplyButton.addEventListener('click', sendReply);
+    elements.replyText.addEventListener('keydown', (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+        sendReply();
+      }
+    });
+    elements.panelToggle.addEventListener('click', () => {
+      state.panelCollapsed = !state.panelCollapsed;
+      renderControlPanel();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const elapsed = (performance.now() - window.__dmDemoStart).toFixed(0);
+      console.info(`[dm-demo] DOMContentLoaded at ${elapsed} ms`);
+    });
+
+    document.body.dataset.mobileView = 'list';
+    resetScenario('defaultQueue');
+    const firstRenderElapsed = (performance.now() - window.__dmDemoStart).toFixed(0);
+    console.info(`[dm-demo] first thread render at ${firstRenderElapsed} ms`);
+  </script>
+</body>
+</html>
