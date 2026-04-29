@@ -760,9 +760,20 @@
       font-size: var(--md-sys-typescale-body-medium-size);
       line-height: var(--md-sys-typescale-body-medium-line);
       letter-spacing: var(--md-sys-typescale-body-medium-tracking);
+      padding: 0 4px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
     }
 
-    .message-row.admin .message-meta { text-align: right; }
+    .message-row.admin .message-meta {
+      justify-content: flex-end;
+    }
+
+    .message-author {
+      font-weight: 500;
+      color: var(--md-sys-color-on-surface);
+    }
 
     .composer {
       padding: var(--space-3) var(--space-4);
@@ -1725,8 +1736,8 @@
       return `
         <div class="message-row ${fromClass}">
           <div class="message-bubble-group">
+            <div class="message-meta"><span class="message-author">${escapeHtml(message.author)}</span><span class="message-time">${escapeHtml(message.time)}</span></div>
             ${bubble}
-            <div class="message-meta">${escapeHtml(message.author)} ${escapeHtml(message.time)}</div>
           </div>
         </div>
       `;
