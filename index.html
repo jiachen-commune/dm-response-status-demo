@@ -398,6 +398,11 @@
 
     .thread-item.unread .thread-name { font-weight: 700; }
 
+    .thread-item.unread .thread-preview {
+      color: var(--md-sys-color-on-surface);
+      font-weight: 700;
+    }
+
     .avatar {
       width: 40px;
       height: 40px;
@@ -471,7 +476,6 @@
       align-items: flex-end;
       gap: 6px;
       flex: 0 0 auto;
-      min-width: 140px;
     }
 
     .thread-status-stack {
@@ -631,6 +635,7 @@
       white-space: nowrap;
       cursor: default;
       user-select: none;
+      flex-shrink: 0;
     }
 
     .info-chip .material-symbols-outlined { font-size: 14px; }
@@ -658,6 +663,7 @@
       font-weight: 700;
       line-height: 1;
       font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
     }
 
     .action-button {
@@ -1765,8 +1771,8 @@
             <span class="thread-side">
               <span class="timestamp">${escapeHtml(thread.time)}</span>
               <span class="thread-status-stack">
-                ${statusChip(thread.status)}
                 ${unreadBadge(thread)}
+                ${statusChip(thread.status)}
               </span>
             </span>
           </button>
