@@ -396,6 +396,8 @@
 
     .thread-item.selected { background: var(--md-sys-color-secondary-container); }
 
+    .thread-item.unread .thread-name { font-weight: 700; }
+
     .avatar {
       width: 40px;
       height: 40px;
@@ -469,7 +471,13 @@
       align-items: flex-end;
       gap: 6px;
       flex: 0 0 auto;
-      min-width: 56px;
+      min-width: 116px;
+    }
+
+    .thread-status-stack {
+      display: grid;
+      justify-items: end;
+      gap: 4px;
     }
 
     .timestamp {
@@ -541,6 +549,13 @@
       align-items: center;
       gap: 6px;
       margin-top: 2px;
+    }
+
+    #conversationStatus {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
     }
 
     .conversation-title {
@@ -627,6 +642,21 @@
     .info-status-handled {
       background: var(--md-sys-color-success-container);
       color: var(--md-sys-color-on-success-container);
+    }
+
+    .unread-badge {
+      display: inline-grid;
+      place-items: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: var(--md-sys-shape-corner-full);
+      background: var(--md-sys-color-warn-dot);
+      color: #ffffff;
+      font-size: var(--md-sys-typescale-label-small-size);
+      font-weight: 700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
     }
 
     .action-button {
@@ -1122,6 +1152,7 @@
               </div>
             </div>
             <div class="conversation-actions">
+              <button class="action-button action-secondary" type="button" id="toggleReadButton"></button>
               <button class="action-button" type="button" id="toggleStatusButton"></button>
             </div>
           </header>
@@ -1180,8 +1211,12 @@
         emptyBody: 'Try a different keyword or load another scenario.',
         markHandled: 'Mark handled',
         reopen: 'Reopen',
+        markRead: 'Mark read',
+        markUnread: 'Mark unread',
         statusNeeds: 'Needs response',
         statusHandled: 'Handled',
+        statusRead: 'Read',
+        statusUnread: 'Unread',
         replyPlaceholder: 'Write a reply',
         today: 'Today',
         yesterday: 'Yesterday',
@@ -1195,18 +1230,19 @@
         actionsLabel: 'Actions',
         automationLabel: 'Automation',
         autoNeeds: 'When a user sends a new message, mark as Needs response',
-        autoNeedsDesc: 'Inbound messages reopen the thread automatically.',
-        autoHandled: 'When the admin replies, mark as Handled',
-        autoHandledDesc: 'Sending a reply closes the thread automatically.',
+        autoNeedsDesc: 'Inbound messages reopen response status; they never mark a thread handled.',
+        autoHandledRule: 'Admin replies always mark the thread Handled. Handling does not automatically change read/unread.',
         simulateUserShort: 'Simulate user message',
         resetScenario: 'Reset scenario',
         resetCopy: 'Reset reloads the current scenario fixture.',
         toastHandled: 'Marked handled.',
         toastReopened: 'Reopened as needs response.',
+        toastRead: 'Marked read.',
+        toastUnread: 'Marked unread.',
         toastSentHandled: 'Sent. Closed as handled.',
         toastSentOnly: 'Reply sent.',
-        toastInboundNeeds: 'New user message. Reopened as Needs response.',
-        toastInboundOnly: 'New user message received.',
+        toastInboundNeeds: 'New user message. Marked Needs response and Unread.',
+        toastInboundOnly: 'New user message received and marked Unread.',
         toastScenarioLoaded: 'Scenario loaded.',
         toastReset: 'Scenario reset.',
         toastLanguage: 'Language updated.',
@@ -1234,8 +1270,12 @@
         emptyBody: 'キーワードを変えるか、別のシナリオを読み込んでください。',
         markHandled: '対応済みにする',
         reopen: '要対応に戻す',
+        markRead: '既読にする',
+        markUnread: '未読にする',
         statusNeeds: '要対応',
         statusHandled: '対応済み',
+        statusRead: '既読',
+        statusUnread: '未読',
         replyPlaceholder: 'メッセージを入力',
         today: '今日',
         yesterday: '昨日',
@@ -1249,18 +1289,19 @@
         actionsLabel: '操作',
         automationLabel: '自動処理',
         autoNeeds: 'ユーザーDM受信時に自動で要対応にする',
-        autoNeedsDesc: '新着DMでスレッドが自動的に要対応に戻ります。',
-        autoHandled: '管理者返信時に自動で対応済みにする',
-        autoHandledDesc: '返信送信でスレッドが自動的に対応済みになります。',
+        autoNeedsDesc: '新着DMは要対応に戻します。対応済みには自動変更しません。',
+        autoHandledRule: '管理者返信時は常に対応済みにします。対応済み操作だけでは既読/未読は変えません。',
         simulateUserShort: 'ユーザーDMを再現',
         resetScenario: 'シナリオを初期化',
         resetCopy: '現在のシナリオを最初の状態に戻します。',
         toastHandled: '対応済みにしました。',
         toastReopened: '要対応に戻しました。',
+        toastRead: '既読にしました。',
+        toastUnread: '未読にしました。',
         toastSentHandled: '送信し、対応済みにしました。',
         toastSentOnly: '返信を送信しました。',
-        toastInboundNeeds: '新着DMを受信し、要対応に戻しました。',
-        toastInboundOnly: '新着DMを受信しました。',
+        toastInboundNeeds: '新着DMを受信し、要対応・未読にしました。',
+        toastInboundOnly: '新着DMを受信し、未読にしました。',
         toastScenarioLoaded: 'シナリオを読み込みました。',
         toastReset: 'シナリオを初期化しました。',
         toastLanguage: '言語を切り替えました。',
@@ -1282,7 +1323,7 @@
       selectedThreadId: '',
       search: '',
       panelCollapsed: false,
-      debug: { autoNeeds: true, autoHandled: true },
+      debug: { autoNeeds: true },
       threads: []
     };
 
@@ -1295,6 +1336,7 @@
       conversationMeta: document.getElementById('conversationMeta'),
       conversationStatus: document.getElementById('conversationStatus'),
       conversationBack: document.getElementById('conversationBack'),
+      toggleReadButton: document.getElementById('toggleReadButton'),
       toggleStatusButton: document.getElementById('toggleStatusButton'),
       messages: document.getElementById('messages'),
       replyText: document.getElementById('replyText'),
@@ -1346,19 +1388,39 @@
       return `<span class="${cls}"><span class="avatar-fallback">${initials}</span></span>`;
     }
 
+    function inferredUnreadCount(thread) {
+      let count = 0;
+      for (let i = thread.messages.length - 1; i >= 0; i -= 1) {
+        const message = thread.messages[i];
+        if (message.from === 'admin') break;
+        if (message.from === 'user') count += 1;
+      }
+      return count;
+    }
+
     function makeThread(t) {
-      return Object.assign({
+      const thread = Object.assign({
         id: '',
         name: '',
         initials: '',
         avatarImg: '',
         status: 'needs',
+        readStatus: '',
+        unreadCount: null,
         latest: '',
         latestKind: 'text',
         time: '',
         sortKey: 0,
         messages: []
       }, t);
+      if (!thread.readStatus) {
+        thread.readStatus = thread.status === 'needs' ? 'unread' : 'read';
+      }
+      if (thread.unreadCount === null) {
+        thread.unreadCount = thread.readStatus === 'unread' ? Math.max(1, inferredUnreadCount(thread)) : 0;
+      }
+      thread.readStatus = thread.unreadCount > 0 ? 'unread' : 'read';
+      return thread;
     }
 
     function defaultQueueThreads() {
@@ -1396,6 +1458,7 @@
           initials: 'MK',
           avatarImg: img(47),
           status: 'handled',
+          readStatus: 'unread',
           latest: 'Thanks, that solved it.',
           time: '11:22',
           sortKey: 1122,
@@ -1474,6 +1537,7 @@
           initials: 'HD',
           avatarImg: img(12),
           status: 'handled',
+          readStatus: 'unread',
           latest: 'Thanks, see you next week.',
           time: '10:18',
           sortKey: 1018,
@@ -1635,11 +1699,18 @@
       return `<span class="info-chip ${className}"><span class="material-symbols-outlined">${icon}</span>${escapeHtml(label)}</span>`;
     }
 
+    function unreadBadge(thread) {
+      const count = Number(thread.unreadCount || 0);
+      if (count <= 0) return '';
+      return `<span class="unread-badge" aria-label="${escapeHtml(t('statusUnread'))}">${escapeHtml(count)}</span>`;
+    }
+
     function sortThreads(threads) {
       const copy = [...threads];
       if (state.sort === 'priority') {
         copy.sort((a, b) => {
           if (a.status !== b.status) return a.status === 'needs' ? -1 : 1;
+          if (a.unreadCount !== b.unreadCount) return b.unreadCount - a.unreadCount;
           return b.sortKey - a.sortKey;
         });
       } else {
@@ -1698,7 +1769,7 @@
       }
       elements.threadList.innerHTML = rows.map((thread) => `
         <li>
-          <button class="thread-item ${thread.id === state.selectedThreadId ? 'selected' : ''}" type="button" data-thread-id="${escapeHtml(thread.id)}">
+          <button class="thread-item ${thread.id === state.selectedThreadId ? 'selected' : ''} ${thread.unreadCount > 0 ? 'unread' : ''}" type="button" data-thread-id="${escapeHtml(thread.id)}">
             ${avatarHtml(thread)}
             <span class="thread-content">
               <span class="thread-name">${escapeHtml(thread.name)}</span>
@@ -1706,7 +1777,10 @@
             </span>
             <span class="thread-side">
               <span class="timestamp">${escapeHtml(thread.time)}</span>
-              ${thread.status === 'needs' ? '<span class="needs-dot" aria-hidden="true"></span>' : ''}
+              <span class="thread-status-stack">
+                ${statusChip(thread.status)}
+                ${unreadBadge(thread)}
+              </span>
             </span>
           </button>
         </li>
@@ -1748,7 +1822,11 @@
       if (!thread) return;
       elements.conversationTitle.textContent = thread.name;
       elements.conversationMeta.textContent = `${t('threadId')} ${thread.id}`;
-      elements.conversationStatus.innerHTML = statusChip(thread.status);
+      elements.conversationStatus.innerHTML = `${statusChip(thread.status)}${unreadBadge(thread)}`;
+      elements.toggleReadButton.className = 'action-button action-secondary';
+      elements.toggleReadButton.innerHTML = thread.unreadCount > 0
+        ? `<span class="material-symbols-outlined">check</span>${escapeHtml(t('markRead'))}`
+        : `<span class="material-symbols-outlined">mail</span>${escapeHtml(t('markUnread'))}`;
       const toggleIsPrimary = thread.status === 'needs';
       elements.toggleStatusButton.className = toggleIsPrimary
         ? 'action-button'
@@ -1801,7 +1879,7 @@
         <div class="panel-section">
           <span class="panel-label">${escapeHtml(t('automationLabel'))}</span>
           ${renderToggle('autoNeeds', 'autoNeeds', 'autoNeedsDesc')}
-          ${renderToggle('autoHandled', 'autoHandled', 'autoHandledDesc')}
+          <div class="panel-help">${escapeHtml(t('autoHandledRule'))}</div>
         </div>
 
         <button class="panel-reset" type="button" id="resetButton">${escapeHtml(t('resetScenario'))}</button>
@@ -1862,6 +1940,11 @@
       thread.status = status;
     }
 
+    function markUnreadCount(thread, unreadCount) {
+      thread.unreadCount = Math.max(0, unreadCount);
+      thread.readStatus = thread.unreadCount > 0 ? 'unread' : 'read';
+    }
+
     function toggleStatus() {
       const thread = selectedThread();
       if (!thread) return;
@@ -1871,6 +1954,19 @@
       } else {
         markThread(thread, 'needs');
         showToast(t('toastReopened'));
+      }
+      render();
+    }
+
+    function toggleReadStatus() {
+      const thread = selectedThread();
+      if (!thread) return;
+      if (thread.unreadCount > 0) {
+        markUnreadCount(thread, 0);
+        showToast(t('toastRead'));
+      } else {
+        markUnreadCount(thread, Math.max(1, inferredUnreadCount(thread)));
+        showToast(t('toastUnread'));
       }
       render();
     }
@@ -1886,12 +1982,8 @@
       thread.latestKind = 'text';
       thread.time = time;
       thread.sortKey = Date.now();
-      if (state.debug.autoHandled) {
-        markThread(thread, 'handled');
-        showToast(t('toastSentHandled'));
-      } else {
-        showToast(t('toastSentOnly'));
-      }
+      markThread(thread, 'handled');
+      showToast(t('toastSentHandled'));
       moveThreadToTop(thread.id);
       elements.replyText.value = '';
       render();
@@ -1910,6 +2002,7 @@
       thread.latestKind = 'text';
       thread.time = time;
       thread.sortKey = Date.now();
+      markUnreadCount(thread, thread.unreadCount + 1);
       if (state.debug.autoNeeds) {
         if (wasHandled) {
           thread.messages.push({ from: 'system', kind: 'auto-revert', author: thread.name, time });
@@ -1934,6 +2027,7 @@
       });
     });
     elements.toggleStatusButton.addEventListener('click', toggleStatus);
+    elements.toggleReadButton.addEventListener('click', toggleReadStatus);
     elements.conversationBack.addEventListener('click', () => {
       document.body.dataset.mobileView = 'list';
     });
