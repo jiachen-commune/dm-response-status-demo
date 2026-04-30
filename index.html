@@ -1819,7 +1819,7 @@
       if (!thread) return;
       elements.conversationTitle.textContent = thread.name;
       elements.conversationMeta.textContent = `${t('threadId')} ${thread.id}`;
-      elements.conversationStatus.innerHTML = `${statusChip(thread.status)}${unreadBadge(thread)}`;
+      elements.conversationStatus.innerHTML = statusChip(thread.status);
       elements.toggleReadButton.className = 'action-button action-secondary';
       elements.toggleReadButton.innerHTML = thread.unreadCount > 0
         ? `<span class="material-symbols-outlined">check</span>${escapeHtml(t('markRead'))}`
