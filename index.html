@@ -1153,7 +1153,6 @@
               </div>
             </div>
             <div class="conversation-actions">
-              <button class="action-button action-secondary" type="button" id="toggleReadButton"></button>
               <button class="action-button" type="button" id="toggleStatusButton"></button>
             </div>
           </header>
@@ -1212,8 +1211,6 @@
         emptyBody: 'Try a different keyword or load another scenario.',
         markHandled: 'Mark handled',
         reopen: 'Reopen',
-        markRead: 'Mark read',
-        markUnread: 'Mark unread',
         statusNeeds: 'Needs response',
         statusHandled: 'Handled',
         unreadAriaLabel: '{count} unread',
@@ -1237,8 +1234,6 @@
         resetCopy: 'Reset reloads the current scenario fixture.',
         toastHandled: 'Marked as handled.',
         toastReopened: 'Reopened. Needs response.',
-        toastRead: 'Marked as read.',
-        toastUnread: 'Marked as unread.',
         toastSentHandled: 'Reply sent. Marked as handled.',
         toastInboundNeeds: 'New message from {name}. Reopened as Needs response.',
         toastInboundOnly: 'New message from {name}.',
@@ -1269,8 +1264,6 @@
         emptyBody: 'キーワードを変えるか、別のシナリオを読み込んでください。',
         markHandled: '対応済みにする',
         reopen: '要対応に戻す',
-        markRead: '既読にする',
-        markUnread: '未読にする',
         statusNeeds: '要対応',
         statusHandled: '対応済み',
         unreadAriaLabel: '未読 {count} 件',
@@ -1294,8 +1287,6 @@
         resetCopy: '現在のシナリオを最初の状態に戻します。',
         toastHandled: '対応済みにしました。',
         toastReopened: '要対応に戻しました。',
-        toastRead: '既読にしました。',
-        toastUnread: '未読にしました。',
         toastSentHandled: '返信を送信し、対応済みにしました。',
         toastInboundNeeds: '{name} から新着DM。要対応に戻しました。',
         toastInboundOnly: '{name} から新着DM。',
@@ -1333,7 +1324,6 @@
       conversationMeta: document.getElementById('conversationMeta'),
       conversationStatus: document.getElementById('conversationStatus'),
       conversationBack: document.getElementById('conversationBack'),
-      toggleReadButton: document.getElementById('toggleReadButton'),
       toggleStatusButton: document.getElementById('toggleStatusButton'),
       messages: document.getElementById('messages'),
       replyText: document.getElementById('replyText'),
@@ -1785,6 +1775,8 @@
       elements.threadList.querySelectorAll('[data-thread-id]').forEach((node) => {
         node.addEventListener('click', () => {
           state.selectedThreadId = node.dataset.threadId;
+          const opened = selectedThread();
+          if (opened && opened.unreadCount > 0) markUnreadCount(opened, 0);
           document.body.dataset.mobileView = 'detail';
           render();
         });
@@ -1820,10 +1812,6 @@
       elements.conversationTitle.textContent = thread.name;
       elements.conversationMeta.textContent = `${t('threadId')} ${thread.id}`;
       elements.conversationStatus.innerHTML = statusChip(thread.status);
-      elements.toggleReadButton.className = 'action-button action-secondary';
-      elements.toggleReadButton.innerHTML = thread.unreadCount > 0
-        ? `<span class="material-symbols-outlined">check</span>${escapeHtml(t('markRead'))}`
-        : `<span class="material-symbols-outlined">mail</span>${escapeHtml(t('markUnread'))}`;
       const toggleIsPrimary = thread.status === 'needs';
       elements.toggleStatusButton.className = toggleIsPrimary
         ? 'action-button'
@@ -1955,19 +1943,6 @@
       render();
     }
 
-    function toggleReadStatus() {
-      const thread = selectedThread();
-      if (!thread) return;
-      if (thread.unreadCount > 0) {
-        markUnreadCount(thread, 0);
-        showToast(t('toastRead'));
-      } else {
-        markUnreadCount(thread, Math.max(1, inferredUnreadCount(thread)));
-        showToast(t('toastUnread'));
-      }
-      render();
-    }
-
     function sendReply() {
       const thread = selectedThread();
       if (!thread) return;
@@ -2024,7 +1999,6 @@
       });
     });
     elements.toggleStatusButton.addEventListener('click', toggleStatus);
-    elements.toggleReadButton.addEventListener('click', toggleReadStatus);
     elements.conversationBack.addEventListener('click', () => {
       document.body.dataset.mobileView = 'list';
     });
